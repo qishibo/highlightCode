@@ -1,0 +1,11 @@
+﻿{
+    "name": "关键词双击自动高亮",
+    "description": "双击某个词，页面内其他相同词汇自动高亮，码农看代码神器^_^",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "permissions" : ["contextMenus", "tabs","http://*/"],
+    "content_scripts":[{
+        "matches":["http://*/*", "http://*/", "https://*/*", "https://*/"],
+        "js":["highLight.js"]
+    }]
+}
