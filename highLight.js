@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created on : 2016-04-15 18:49:33 星期五
  * Encoding   : UTF-8
  * Description:
@@ -84,4 +84,4 @@ var qii404 = {
 
 qii404.init();
 
-// end of file do_your_self.js
+// end of file highLight.js
