@@ -13,7 +13,7 @@ var qii404 = {
     /*
      * 默认替换的样式
      */
-    defaultStyle: '<span style="color: red;font-weight: bold;font-family: Arial;">%text</span>',
+    defaultStyle: '<span style="color: red;font-weight: bold;background-color: lightgrey;padding: 3px;">%text</span>',
 
     /*
      * 上一个替换的单词
