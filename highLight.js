@@ -64,6 +64,21 @@ var qii404 = {
     },
 
     /*
+     * 取消所有高亮
+     */
+    removeHighlight: function() {
+        var highlights = document.querySelectorAll('span.' + this.highlightClass);
+
+        for (var i=0; i< highlights.length; i++) {
+            var highlightNode = highlights[i];
+            var parentNode    = highlightNode.parentNode;
+
+            parentNode.replaceChild(highlightNode.firstChild, highlightNode);
+            parentNode.normalize();
+        }
+    },
+
+    /*
      * 初始化正则
      */
     initRegex: function(keyWord) {
@@ -93,6 +108,7 @@ var qii404 = {
 
             if(selectedText.length > 0) {
                 console.log(selectedText);
+                this_.removeHighlight();
                 this_.mapNode(document.body, selectedText);
             }
           }
