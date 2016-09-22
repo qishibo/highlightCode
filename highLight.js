@@ -109,7 +109,7 @@ var qii404 = {
           if (document.activeElement) {
             var selectedText = window.getSelection().toString();
 
-            if(selectedText.length > 0) {
+            if(selectedText.length > 0 && selectedText.replace(/(\s)/g, '') != '') {
                 console.log(selectedText);
                 this_.removeHighlight();
                 this_.mapNode(document.body, selectedText);
