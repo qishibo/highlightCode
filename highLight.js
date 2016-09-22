@@ -10,75 +10,93 @@
 
 var qii404 = {
 
-    /*
-     * 默认替换的样式
-     */
-    defaultStyle: '<span style="color: red;font-weight: bold;background-color: lightgrey;padding: 3px;">%text</span>',
-
-    /*
-     * 上一个替换的单词
-     */
-    lasetSelected: null,
+    highlightClass: 'qii404-highlight',
 
     /**
      * 初始化 绑定双击事件
      */
     init: function(){
+        this.bindClick();
+    },
+
+    /*
+     * 遍历节点进行高亮
+     */
+    mapNode: function(node, keyWord) {
+
+        if (node.nodeType === 3) {
+            if (node.data.replace(/(\s)/g, '') != '') {
+                this.highlight(node, keyWord);
+            }
+        }
+
+        else if (
+            (node.nodeType === 1) &&
+            node.childNodes &&
+            !/(script|style)/i.test(node.tagName) &&
+            !(node.tagName === 'SPAN' && node.className === this.highlightClass)
+        ) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+                this.mapNode(node.childNodes[i], keyWord);
+            }
+        }
+    },
+
+    /*
+     * 根据node进行关键词高亮
+     */
+    highlight: function(node, keyWord) {
+
+        var match = node.data.match(this.initRegex(keyWord));
+
+        if (match === null) {
+            return false;
+        }
+
+        var newNode = node.splitText(match.index);
+
+        newNode.splitText(match[0].length);
+
+        var highlightNode = this.createHighlightNode()
+        highlightNode.appendChild(newNode.cloneNode(true));
+
+        newNode.parentNode.replaceChild(highlightNode, newNode);
+    },
+
+    /*
+     * 初始化正则
+     */
+    initRegex: function(keyWord) {
+        return RegExp(keyWord, 'i');
+    },
+
+    /*
+     * 创建高亮的新元素节点
+     */
+    createHighlightNode: function() {
+        var node = document.createElement('span');
+        node.className = this.highlightClass;
+
+        return node;
+    },
+
+    /*
+     * 绑定双击事件
+     */
+    bindClick: function () {
+
         var this_ = this;
-        document.addEventListener('dblclick', function(evt){
-          var selectedText;
+
+        document.body.addEventListener('dblclick', function(){
           if (document.activeElement) {
-            var sel = window.getSelection();
-            var selectedText = sel.toString();
+            var selectedText = window.getSelection().toString();
 
             if(selectedText.length > 0) {
-
-                this_.text = selectedText;
-                this_.highLight();
-                this_.text = null;
-                this_.lasetSelected = selectedText;
+                console.log(selectedText);
+                this_.mapNode(document.body, selectedText);
             }
           }
         }, false);
-    },
-
-    /**
-     * 对body中的关键词进行高亮替换
-     */
-    highLight: function(){
-        // console.log(this.highLigitHtml(this.text));
-        var htmlNew = document.body.innerHTML.replace(new RegExp(this.text, 'g'), this.highLigitHtml(this.text));
-        htmlNew = this.removeHighlight(htmlNew);
-
-        var bodyNew = document.createElement('body');
-        bodyNew.innerHTML = htmlNew;
-
-        var html = document.getElementsByTagName('html')[0];
-
-        html.removeChild(document.body);
-        html.appendChild(bodyNew);
-    },
-
-    /**
-     * 移除上一次查询的关键词高亮
-     *
-     * @param  {string} htmlNew body里的html
-     *
-     * @return {string}         移除之后的body html
-     */
-    removeHighlight: function(htmlNew){
-        return htmlNew.replace(new RegExp(this.highLigitHtml(this.lasetSelected), 'g'), this.lasetSelected);
-    },
-
-    /**
-     * 将关键词转换成高亮的html标签
-     *
-     * @param  {string} text 关键词
-     *
-     * @return {string}      替换后的html
-     */
-    highLigitHtml: function(text){
-        return this.defaultStyle.replace(/\%text/, text);
     }
 }
 

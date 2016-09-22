@@ -6,7 +6,8 @@
     "permissions" : ["contextMenus", "tabs","http://*/"],
     "content_scripts":[{
         "matches":["http://*/*", "http://*/", "https://*/*", "https://*/"],
-        "js":["highLight.js"]
+        "js":["highLight.js"],
+        "css":["highlight.css"]
     }],
     "icons": {
       "16": "16.png",
