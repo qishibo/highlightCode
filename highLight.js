@@ -5,11 +5,14 @@
  * chrome拓展 双击选中某个词语 页面内其他相同词语自动高亮
  * 码农看代码福利 哈哈
  *
- * @author    @小齐炖博士 <shibo1@staff.weibo.com>
+ * @author    @齐士博 <qii404.me>
  */
 
 var qii404 = {
 
+    /*
+     * 高亮css类
+     */
     highlightClass: 'qii404-highlight',
 
     /**
