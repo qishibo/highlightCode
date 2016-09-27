@@ -15,6 +15,11 @@ var qii404 = {
      */
     highlightClass: 'qii404-highlight',
 
+    /*
+     * 点击事件
+     */
+    clickEvent: null,
+
     /**
      * 初始化 绑定双击事件
      */
@@ -99,22 +104,72 @@ var qii404 = {
     },
 
     /*
+     * 选择文字
+     */
+    selectText: function() {
+        var e = this.clickEvent;
+
+        var clickX = e.clientX;
+        var clickY = e.clientY;
+
+        var highlights = e.srcElement.querySelectorAll('span.' + this.highlightClass);
+
+        for (var i = 0; i < highlights.length; i++) {
+
+            var rect = highlights[i].getBoundingClientRect();
+
+            if (rect.left) {
+                if (
+                    (clickX >= rect.left) &&
+                    (clickX <= rect.right) &&
+                    (clickY >= rect.top) &&
+                    (clickY <= rect.bottom)
+                ) {
+                    this.selectNode(highlights[i]);
+                    break;
+                }
+            }
+        }
+    },
+
+    /*
+     * 选中文字
+     */
+    selectNode: function(node) {
+        selection = window.getSelection();
+        range     = document.createRange();
+
+        range.selectNodeContents(node);
+
+        selection.removeAllRanges();
+        selection.addRange(range);
+    },
+
+    /*
      * 绑定双击事件
      */
     bindClick: function () {
 
         var this_ = this;
 
-        document.body.addEventListener('dblclick', function(){
-          if (document.activeElement) {
-            var selectedText = window.getSelection().toString();
+        document.body.addEventListener('dblclick', function(e){
 
-            if(selectedText.length > 0 && selectedText.replace(/(\s)/g, '') != '') {
-                console.log(selectedText);
-                this_.removeHighlight();
-                this_.mapNode(document.body, selectedText);
+            if (e.srcElement.className == this_.highlightClass) {
+                return false;
             }
-          }
+
+            if (document.activeElement) {
+                var selectedText = window.getSelection().toString();
+
+                if(selectedText.length > 0 && selectedText.replace(/(\s)/g, '') != '') {
+                    console.log(selectedText);
+                    this_.clickEvent = e;
+                    this_.removeHighlight();
+
+                    this_.mapNode(document.body, selectedText);
+                    this_.selectText();
+                }
+            }
         }, false);
     }
 }
