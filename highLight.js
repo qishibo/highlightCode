@@ -169,6 +169,10 @@ var qii404 = {
                     this_.mapNode(document.body, selectedText);
                     this_.selectText();
                 }
+
+                else {
+                    this_.removeHighlight();
+                }
             }
         }, false);
     }
