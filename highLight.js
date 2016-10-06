@@ -182,14 +182,10 @@ var qii404 = {
                 if(selectedText.length > 0 && selectedText.replace(/(\s)/g, '') != '') {
                     console.log(selectedText);
                     this_.clickEvent = e;
-                    this_.removeHighlight();
+                    // this_.removeHighlight();
 
                     this_.mapNode(document.body, selectedText);
                     this_.selectText();
-                }
-
-                else {
-                    this_.removeHighlight();
                 }
             }
         }, false);
