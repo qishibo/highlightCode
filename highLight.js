@@ -23,7 +23,7 @@ var qii404 = {
     /**
      * 初始化 绑定双击事件
      */
-    init: function(){
+    init: function() {
         this.bindClick();
     },
 
@@ -146,13 +146,31 @@ var qii404 = {
     },
 
     /*
-     * 绑定双击事件
+     * 绑定点击事件
      */
     bindClick: function () {
+        this.singleClick();
+        this.doubleClick();
+    },
+
+    /*
+     * 绑定单击事件
+     */
+    singleClick: function() {
+        var this_ =  this;
+        document.body.addEventListener('click', function(e) {
+            this_.removeHighlight();
+        });
+    },
+
+    /*
+     * 双击绑定
+     */
+    doubleClick: function() {
 
         var this_ = this;
 
-        document.body.addEventListener('dblclick', function(e){
+        document.body.addEventListener('dblclick', function(e) {
 
             if (e.srcElement.className == this_.highlightClass) {
                 return false;
