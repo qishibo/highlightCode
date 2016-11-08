@@ -90,6 +90,10 @@ var qii404 = {
      * 初始化正则
      */
     initRegex: function(keyWord) {
+
+        // 针对特殊字符的转义
+        keyWord = keyWord.replace(/(\^|\$|\.|\*|\?|\(|\)|\+|\\)/ig, "\\$1");
+
         return RegExp(keyWord, 'i');
     },
 
