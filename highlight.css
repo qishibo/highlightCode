@@ -3,6 +3,6 @@
  */
 
 .qii404-highlight{
-    background: lightgrey;
-    color: red;
+    background: lightgrey !important;
+    color: red !important;
 }

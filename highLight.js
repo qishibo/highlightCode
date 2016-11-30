@@ -21,16 +21,56 @@ var qii404 = {
     clickEvent: null,
 
     /**
-     * 初始化 绑定双击事件
+     * 初始化 绑定事件
      */
     init: function() {
         this.bindClick();
+        this.createMenu();
+        this.bindMenuMsg();
+    },
+
+    /*
+     * 绑定点击事件
+     */
+    bindClick: function () {
+        this.singleClick();
+        this.doubleClick();
+    },
+
+    /**
+     * 创建右键菜单
+     */
+    createMenu: function() {
+        chrome.extension.sendRequest({"action": "createMenu"});
+    },
+
+    /**
+     * 绑定右键菜单点击时的操作
+     */
+    bindMenuMsg: function() {
+
+        var this_ = this;
+
+        chrome.runtime.onMessage.addListener(function(request) {
+
+                console.log(request);
+
+                if (request.action === 'highlight') {
+                    var selectedText = window.getSelection().toString();
+
+                    console.log(selectedText);
+
+                    if(selectedText.length > 0 && selectedText.replace(/(\s)/g, '') != '') {
+                        this_.mapToHighlight(document.body, selectedText);
+                    }
+                }
+        });
     },
 
     /*
      * 遍历节点进行高亮
      */
-    mapNode: function(node, keyWord) {
+    mapToHighlight: function(node, keyWord) {
 
         if (node.nodeType === 3) {
             if (node.data.replace(/(\s)/g, '') != '') {
@@ -45,7 +85,7 @@ var qii404 = {
             !(node.tagName === 'SPAN' && node.className === this.highlightClass)
         ) {
             for (var i = 0; i < node.childNodes.length; i++) {
-                this.mapNode(node.childNodes[i], keyWord);
+                this.mapToHighlight(node.childNodes[i], keyWord);
             }
         }
     },
@@ -69,21 +109,6 @@ var qii404 = {
         highlightNode.appendChild(newNode.cloneNode(true));
 
         newNode.parentNode.replaceChild(highlightNode, newNode);
-    },
-
-    /*
-     * 取消所有高亮
-     */
-    removeHighlight: function() {
-        var highlights = document.querySelectorAll('span.' + this.highlightClass);
-
-        for (var i=0; i< highlights.length; i++) {
-            var highlightNode = highlights[i];
-            var parentNode    = highlightNode.parentNode;
-
-            parentNode.replaceChild(highlightNode.firstChild, highlightNode);
-            parentNode.normalize();
-        }
     },
 
     /*
@@ -119,9 +144,7 @@ var qii404 = {
         var highlights = e.srcElement.querySelectorAll('span.' + this.highlightClass);
 
         for (var i = 0; i < highlights.length; i++) {
-
             var rect = highlights[i].getBoundingClientRect();
-
             if (rect.left) {
                 if (
                     (clickX >= rect.left) &&
@@ -150,17 +173,25 @@ var qii404 = {
     },
 
     /*
-     * 绑定点击事件
+     * 取消所有高亮
      */
-    bindClick: function () {
-        this.singleClick();
-        this.doubleClick();
+    removeHighlight: function() {
+        var highlights = document.querySelectorAll('span.' + this.highlightClass);
+
+        for (var i=0; i< highlights.length; i++) {
+            var highlightNode = highlights[i];
+            var parentNode    = highlightNode.parentNode;
+
+            parentNode.replaceChild(highlightNode.firstChild, highlightNode);
+            parentNode.normalize();
+        }
     },
 
     /*
      * 绑定单击事件
      */
     singleClick: function() {
+
         var this_ =  this;
         document.body.addEventListener('click', function(e) {
             this_.removeHighlight();
@@ -188,7 +219,7 @@ var qii404 = {
                     this_.clickEvent = e;
                     // this_.removeHighlight();
 
-                    this_.mapNode(document.body, selectedText);
+                    this_.mapToHighlight(document.body, selectedText);
                     this_.selectText();
                 }
             }
