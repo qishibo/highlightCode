@@ -11,6 +11,11 @@
 var qii404 = {
 
     /*
+     * 自定义高亮标签
+     */
+    highlightTag: 'qii',
+
+    /*
      * 高亮css类
      */
     highlightClass: 'qii404-highlight',
@@ -82,7 +87,7 @@ var qii404 = {
             (node.nodeType === 1) &&
             node.childNodes &&
             !/(script|style)/i.test(node.tagName) &&
-            !(node.tagName === 'SPAN' && node.className === this.highlightClass)
+            !(node.tagName === this.highlightTag.toUpperCase() && node.className === this.highlightClass)
         ) {
             for (var i = 0; i < node.childNodes.length; i++) {
                 this.mapToHighlight(node.childNodes[i], keyWord);
@@ -126,7 +131,7 @@ var qii404 = {
      * 创建高亮的新元素节点
      */
     createHighlightNode: function() {
-        var node = document.createElement('span');
+        var node = document.createElement(this.highlightTag);
         node.className = this.highlightClass;
 
         return node;
@@ -176,7 +181,7 @@ var qii404 = {
      * 取消所有高亮
      */
     removeHighlight: function() {
-        var highlights = document.querySelectorAll('span.' + this.highlightClass);
+        var highlights = document.querySelectorAll(this.highlightTag + '.' + this.highlightClass);
 
         for (var i=0; i< highlights.length; i++) {
             var highlightNode = highlights[i];
