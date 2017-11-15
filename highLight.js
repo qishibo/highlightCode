@@ -146,7 +146,7 @@ var qii404 = {
         var clickX = e.clientX;
         var clickY = e.clientY;
 
-        var highlights = e.srcElement.querySelectorAll('span.' + this.highlightClass);
+        var highlights = e.srcElement.querySelectorAll(this.highlightTag + '.' + this.highlightClass);
 
         for (var i = 0; i < highlights.length; i++) {
             var rect = highlights[i].getBoundingClientRect();
