@@ -1,0 +1,8 @@
+{
+    "title": {
+        "message": "Highlight Word When Double Click"
+    },
+    "description": {
+        "message": "Double click on a word, the other same words in the page are automatically highlighted"
+    }
+}

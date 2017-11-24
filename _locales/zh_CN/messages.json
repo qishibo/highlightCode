@@ -1,0 +1,8 @@
+{
+    "title": {
+        "message": "双击单词高亮"
+    },
+    "description": {
+        "message": "双击选中某个单词，页面内其他位置的该单词自动高亮，比如查找某个function定义，双击该function，页面内所有该function关键词自动高亮，码农看代码神器 ^_^"
+    }
+}
