@@ -61,6 +61,15 @@ var qii404 = {
                 console.log(request);
 
                 if (request.action === 'highlight') {
+                    // 后台发送消息，如果未高亮则高亮，否则取消高亮 实现toggle
+                    var highlights = document.querySelectorAll(this_.highlightTag + '.' + this_.highlightClass);
+                    // 已经高亮
+                    if (highlights.length > 0) {
+                        this_.removeHighlight();
+                        return;
+                    }
+
+                    // 进行高亮操作
                     var selectedText = window.getSelection().toString();
 
                     console.log(selectedText);

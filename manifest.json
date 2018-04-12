@@ -24,5 +24,13 @@
             "128": "128.png"
         }
     },
-    "default_locale": "zh_CN"
+    "default_locale": "zh_CN",
+    "commands" : {
+      "highlight" : {
+        "suggested_key" : {
+          "default" : "Alt+S"
+        } ,
+        "description" : "高亮页面内容"
+      }
+    }
 }

@@ -23,6 +23,7 @@ var qii404 = {
      */
     init: function() {
         this.bindRequest();
+        this.bindCommand();
     },
 
     /*
@@ -39,6 +40,23 @@ var qii404 = {
             if (request['action'] === 'createMenu' && !this_.menuCreated) {
                 this_.createHighlightMenu();
                 this_.menuCreated = true;
+            }
+        });
+    },
+
+    /*
+     * 绑定快捷键命令
+     */
+    bindCommand: function () {
+        var this_ = this;
+        chrome.commands.onCommand.addListener(function (command) {
+            console.log('get command: ', command);
+
+            switch (command)
+            {
+                case 'highlight':
+                    this_.contentHighlight();
+                    break;
             }
         });
     },
