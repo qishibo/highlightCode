@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>高亮设置</title>
+    <style type="text/css">
+        body {
+            width: 117px;
+            height: 100px;
+            background: #f4f1f1;
+        }
+        .text {
+            display: none;
+        }
+        .on {
+            color:#333;
+        }
+        .off {
+            color:#eee;
+        }
+        .circle {
+            position: absolute;
+            display: inline-block;
+        }
+        #radio {
+            display: none;
+        }
+        #radio ~label {
+            background-color: #aeaaaa;
+        }
+        #radio ~label .circle {
+            left: 0;
+            transition: all 0.3s;
+            --webkit-transition: all 0.3s;
+        }
+        #radio ~label .on {
+            display: none;
+        }
+        #radio ~ label .off {
+            display: inline-block;
+            padding-left: 30px;
+        }
+        #radio:checked ~ label {
+            background: #65f065;
+        }
+        #radio:checked ~label .circle {
+            left: 34px;
+        }
+        #radio:checked ~label .on {
+            display: inline-block;
+            padding-left: 11px;
+        }
+        #radio:checked ~ label .off {
+            display: none;
+        }
+        label {
+            display: inline-block;
+            position: relative;
+            height: 26px;
+            width: 60px;
+            border-top-left-radius: 15px 50%;
+            border-bottom-left-radius: 15px 50%;
+            border-top-right-radius: 15px 50%;
+            border-bottom-right-radius: 15px 50%;
+        }
+        label .circle {
+            display: inline-block;
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            border: 2px solid #d5d2d2;
+            background-color: #eee;
+        }
+        label .text {
+            line-height: 27px;
+            font-family: sans-serif;
+        }
+        .btn-desc {
+            font-size: 110%;
+        }
+        .btn-extra {
+            color: grey;
+        }
+
+    </style>
+</head>
+<body>
+    <span class="btn-desc">高亮开关</span>
+    <input type="checkbox" id="radio" name="switch">
+    <label for="radio" class="radio">
+        <span class="circle"></span>
+        <span class="text on">ON</span>
+        <span class="text off">OFF</span>
+    </label>
+    <p class="btn-extra">该开关只影响双击时是否高亮，右键和快捷键不受影响</p>
+</body>
+<script type="text/javascript" src='popup.js'></script>
+</html>

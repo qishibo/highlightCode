@@ -21,6 +21,11 @@ var qii404 = {
     highlightClass: 'qii404-highlight',
 
     /*
+     * 开关设置存储key
+     */
+    switchKey: 'qii404-highlight-switch',
+
+    /*
      * 点击事件
      */
     clickEvent: null,
@@ -49,6 +54,13 @@ var qii404 = {
         chrome.extension.sendRequest({"action": "createMenu"});
     },
 
+    /*
+     * 高亮开关是否打开
+     */
+    stillHighlight: function () {
+        return localStorage.getItem(this.switchKey) == 1 ? false : true;
+    },
+
     /**
      * 绑定右键菜单点击时的操作
      */
@@ -56,10 +68,9 @@ var qii404 = {
 
         var this_ = this;
 
-        chrome.runtime.onMessage.addListener(function(request) {
+        chrome.runtime.onMessage.addListener(function(request, sender, response) {
 
-                console.log(request);
-
+                // 高亮消息
                 if (request.action === 'highlight') {
                     // 后台发送消息，如果未高亮则高亮，否则取消高亮 实现toggle
                     var highlights = document.querySelectorAll(this_.highlightTag + '.' + this_.highlightClass);
@@ -69,6 +80,9 @@ var qii404 = {
                         return;
                     }
 
+                    // 高亮开关已关闭 返回
+                    // if (!this_.stillHighlight()) return;
+
                     // 进行高亮操作
                     var selectedText = window.getSelection().toString();
 
@@ -77,6 +91,16 @@ var qii404 = {
                     if(selectedText.length > 0 && selectedText.replace(/(\s)/g, '') != '') {
                         this_.mapToHighlight(document.body, selectedText);
                     }
+                }
+
+                // 初始化 popup
+                else if (request.action === 'init_switch') {
+                    response({switch: localStorage.getItem(this_.switchKey)});
+                }
+
+                // 开关切换
+                else if (request.action === 'toggle_switch') {
+                    localStorage.setItem(this_.switchKey, request.switch ? 0 : 1);
                 }
         });
     },
@@ -220,6 +244,9 @@ var qii404 = {
         var this_ = this;
 
         document.body.addEventListener('dblclick', function(e) {
+
+            // 高亮开关已关闭 返回
+            if (!this_.stillHighlight()) return;
 
             if (e.srcElement.className == this_.highlightClass) {
                 return false;
