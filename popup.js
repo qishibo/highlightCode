@@ -2,6 +2,10 @@
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {action: "init_switch"}, function(data) {
         console.log('init switch', data);
+        if (data == undefined) {
+            document.getElementById('desc-extra').innerHTML = '抱歉，在该页面无法获得操作权限';
+            return;
+        }
         document.getElementById('radio').checked = (data.switch == 1) ? false : true;
     });
 });
