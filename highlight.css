@@ -2,7 +2,24 @@
  * 高亮词css样式
  */
 
-.qii404-highlight{
+.qii404-highlight {
     background: #ffff00 !important;
     color: black !important;
+}
+
+#qii404-right-summary {
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 15px;
+    background-color: lightgrey;
+    z-index: 99999;
+}
+
+.qii404-right-summary-tag {
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    background-color: yellow;
 }

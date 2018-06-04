@@ -21,6 +21,16 @@ var qii404 = {
     highlightClass: 'qii404-highlight',
 
     /*
+     * 右侧概览css类
+     */
+    rightSummaryClass: 'qii404-right-summary',
+
+    /*
+     * 右侧概览标记点css类
+     */
+    rightSummaryTagClass: 'qii404-right-summary-tag',
+
+    /*
      * 开关设置存储key
      */
     switchKey: 'qii404-highlight-switch',
@@ -29,6 +39,11 @@ var qii404 = {
      * 点击事件
      */
     clickEvent: null,
+
+    /*
+     * 高亮元素高度集合列表
+     */
+    eleTopList: [],
 
     /**
      * 初始化 绑定事件
@@ -89,7 +104,7 @@ var qii404 = {
                     console.log(selectedText);
 
                     if(selectedText.length > 0 && selectedText.replace(/(\s)/g, '') != '') {
-                        this_.mapToHighlight(document.body, selectedText);
+                        this_.beginToHighlight(document.body, selectedText);
                     }
                 }
 
@@ -103,6 +118,15 @@ var qii404 = {
                     localStorage.setItem(this_.switchKey, request.switch ? 0 : 1);
                 }
         });
+    },
+
+    /*
+     * 高亮入口
+     */
+    beginToHighlight: function (node, keyWord, selectText) {
+        this.mapToHighlight(node, keyWord);
+        (selectText == true) && this.selectText();
+        this.renderRightSummary();
     },
 
     /*
@@ -139,6 +163,9 @@ var qii404 = {
             return false;
         }
 
+        // 高度数据备用
+        this.addToTopList(node);
+
         var newNode = node.splitText(match.index);
 
         newNode.splitText(match[0].length);
@@ -147,6 +174,21 @@ var qii404 = {
         highlightNode.appendChild(newNode.cloneNode(true));
 
         newNode.parentNode.replaceChild(highlightNode, newNode);
+    },
+
+    /*
+     * 增加高亮元素节点高度到集合备用
+     */
+    addToTopList: function (node) {
+        // console.log(node.parentNode.getBoundingClientRect());
+        // 相对可视区域左上角距离
+        var relativeTop = node.parentNode.getBoundingClientRect().y;
+
+        if (relativeTop) {
+            // 计算出距离真实顶部的绝对距离
+            relativeTop += document.documentElement.scrollTop;
+            this.eleTopList.push(relativeTop);
+        }
     },
 
     /*
@@ -198,6 +240,30 @@ var qii404 = {
     },
 
     /*
+     * 渲染右侧预览栏
+     */
+    renderRightSummary: function() {
+        var eleTops  = this.eleTopList;
+        var rightDiv = document.createElement('div');
+        rightDiv.id  = this.rightSummaryClass;
+
+        // 页面高度
+        var clientHeight = document.body.clientHeight;
+        // 窗口可见高度
+        var windowHeight = document.documentElement.clientHeight;
+
+        for (var i = 0; i < eleTops.length; i++) {
+            var tag = document.createElement('div');
+            tag.className = this.rightSummaryTagClass;
+
+            tag.style.top = (eleTops[i] / clientHeight) * windowHeight + 'px';
+            rightDiv.appendChild(tag);
+        }
+
+        window.parent.document.body.appendChild(rightDiv);
+    },
+
+    /*
      * 选中文字
      */
     selectNode: function(node) {
@@ -223,6 +289,22 @@ var qii404 = {
             parentNode.replaceChild(highlightNode.firstChild, highlightNode);
             parentNode.normalize();
         }
+
+        // 取消右侧预览
+        this.removeRightSummary();
+    },
+
+    /*
+     * 取消右侧预览
+     */
+    removeRightSummary: function () {
+        this.eleTopList = [];
+
+        var ele = window.document.getElementById(this.rightSummaryClass);
+        ele && ele.remove();
+
+        var ele = window.parent.document.getElementById(this.rightSummaryClass);
+        ele && ele.remove();
     },
 
     /*
@@ -240,7 +322,6 @@ var qii404 = {
      * 双击绑定
      */
     doubleClick: function() {
-
         var this_ = this;
 
         document.body.addEventListener('dblclick', function(e) {
@@ -260,8 +341,7 @@ var qii404 = {
                     this_.clickEvent = e;
                     // this_.removeHighlight();
 
-                    this_.mapToHighlight(document.body, selectedText);
-                    this_.selectText();
+                    this_.beginToHighlight(document.body, selectedText, true);
                 }
             }
         }, false);
