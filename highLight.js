@@ -123,9 +123,12 @@ var qii404 = {
     /*
      * 高亮入口
      */
-    beginToHighlight: function (node, keyWord, selectText) {
+    beginToHighlight: function (node, keyWord, selectText = false) {
+        // 高亮时去掉首位空格后再匹配
+        keyWord = keyWord.replace(/(^\s*)|(\s*$)/g, '');
+
         this.mapToHighlight(node, keyWord);
-        (selectText == true) && this.selectText();
+        selectText && this.selectText();
         this.renderRightSummary();
     },
 
