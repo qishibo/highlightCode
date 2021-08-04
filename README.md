@@ -3,6 +3,9 @@ chrome拓展：双击选中某个词，页面内其他位置的相同词汇自�
 
 比如查找某个function定义，双击该function，页面内所有该function自动高亮，**码农看代码神器**^_^
 
+
+![screenshot](screenshot.png)
+
 ## 安装
 1. [chrome商店](https://chrome.google.com/webstore/detail/%E5%85%B3%E9%94%AE%E8%AF%8D%E5%8F%8C%E5%87%BB%E8%87%AA%E5%8A%A8%E9%AB%98%E4%BA%AE/hiemiigjnmkjedjibioplldlbkhekbjk?gl=CN)
 
