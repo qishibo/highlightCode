@@ -26,6 +26,11 @@ var qii404 = {
     rightSummaryClass: 'qii404-right-summary',
 
     /*
+     * 右侧匹配总数css类
+     */
+    rightTotalClass: 'qii404-right-total',
+
+    /*
      * 右侧概览标记点css类
      */
     rightSummaryTagClass: 'qii404-right-summary-tag',
@@ -249,6 +254,12 @@ var qii404 = {
         var eleTops  = this.eleTopList;
         var rightDiv = document.createElement('div');
         rightDiv.id  = this.rightSummaryClass;
+
+        // 匹配总数
+        var totalDiv = document.createElement('div');
+        totalDiv.innerHTML = 'Total: ' + this.eleTopList.length;
+        totalDiv.className = this.rightTotalClass;
+        rightDiv.appendChild(totalDiv);
 
         // 页面高度
         var clientHeight = document.body.clientHeight;

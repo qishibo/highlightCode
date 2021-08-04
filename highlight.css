@@ -13,8 +13,20 @@
     top: 0;
     height: 100%;
     width: 12px;
-    background-color: lightgrey;
+    background-color: #F1F1F1;
     z-index: 99999;
+}
+
+.qii404-right-total {
+    position: absolute;
+    top: 5px;
+    right: 18px;
+    width: 90px;
+    padding: 3px;
+    font-size: 10px;
+    border: 2px solid #bdb7b7;
+    border-radius: 3px;
+    background-color: #F1F1F1;
 }
 
 .qii404-right-summary-tag {
@@ -22,9 +34,7 @@
     height: 3px;
     position: absolute;
     /*#900 #969646 #ffff00*/
-    border-top: 1px solid #ff9632;
-    border-bottom: 1px solid #ff9632;
-    border-left: 1px solid #ff9632;
-    border-right: 1px solid #ff9632;
+    border: 1px solid #ff9632;
+    box-sizing: border-box;
     background-color: #ffff00;
 }
