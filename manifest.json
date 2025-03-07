@@ -1,11 +1,11 @@
 {
     "name": "__MSG_title__",
     "description": "__MSG_description__",
-    "version": "0.1.6",
-    "manifest_version": 2,
+    "version": "0.2.0",
+    "manifest_version": 3,
     "permissions" : ["contextMenus", "tabs"],
     "background": {
-        "scripts": ["context.js"]
+        "service_worker": "background.js"
     },
     "content_scripts":[{
         "matches":["http://*/*", "http://*/", "https://*/*", "https://*/"],
@@ -18,12 +18,7 @@
       "48": "48.png",
       "128": "128.png"
     },
-    "browser_action": {
-        "default_icon": {
-            "16": "16.png",
-            "48": "48.png",
-            "128": "128.png"
-        },
+    "action": {
         "default_popup": "popup.html"
     },
     "default_locale": "zh_CN",
@@ -32,7 +27,7 @@
         "suggested_key" : {
           "default" : "Alt+S"
         } ,
-        "description" : "高亮页面内容"
+        "description" : "__MSG_shortcut__"
       }
     }
 }

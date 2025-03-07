@@ -1,8 +1,11 @@
 {
     "title": {
-        "message": "双击单词高亮"
+        "message": "高亮关键词"
     },
     "description": {
-        "message": "双击选中某个单词，页面内其他位置的该单词自动高亮，比如查找某个function定义，双击该function，页面内所有该function关键词自动高亮，码农看代码神器 ^_^"
+        "message": "双击选中某个单词/关键词/关键字，页面内其他位置的该单词自动高亮，比如查找某个function定义，双击该function，页面内所有该function关键词自动高亮，码农看代码神器 ^_^"
+    },
+    "shortcut": {
+        "message": "选中后高亮"
     }
 }

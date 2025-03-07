@@ -1,8 +1,11 @@
 {
     "title": {
-        "message": "Highlight Word When Double Click"
+        "message": "Highlight Keyword"
     },
     "description": {
-        "message": "Double click on a word, the other same words in the page are automatically highlighted"
+        "message": "Double-click a word/keyword to automatically highlight the word elsewhere on the page"
+    },
+    "shortcut": {
+        "message": "Highlight After Selection"
     }
 }

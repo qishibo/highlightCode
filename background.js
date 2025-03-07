@@ -33,7 +33,8 @@ var qii404 = {
 
         var this_ = this;
 
-        chrome.extension.onRequest.addListener(function (request){
+        chrome.runtime.onMessage.addListener(function (request, sender, response){
+        // chrome.extension.onRequest.addListener(function (request){
 
             console.log('receving content message', request);
 
@@ -41,6 +42,8 @@ var qii404 = {
                 this_.createHighlightMenu();
                 this_.menuCreated = true;
             }
+
+            response(true);
         });
     },
 
@@ -68,12 +71,14 @@ var qii404 = {
         console.log('creating menu...');
 
         var menuProperties = {
+            'id': 'highlight_code',
             'title' : this.menuContext,
             'contexts' : ['all'],
-            'onclick' : this.contentHighlight
+            // 'onclick' : this.contentHighlight
         };
 
         chrome.contextMenus.create(menuProperties);
+        chrome.contextMenus.onClicked.addListener(this.contentHighlight);
     },
 
     /*

@@ -71,7 +71,8 @@ var qii404 = {
      * 创建右键菜单
      */
     createMenu: function() {
-        chrome.extension.sendRequest({"action": "createMenu"});
+        chrome.runtime.sendMessage({"action": "createMenu"});
+        // chrome.extension.sendRequest({"action": "createMenu"});
     },
 
     /*
@@ -111,6 +112,7 @@ var qii404 = {
                     if(selectedText.length > 0 && selectedText.replace(/(\s)/g, '') != '') {
                         this_.beginToHighlight(document.body, selectedText);
                     }
+                    response(true);
                 }
 
                 // 初始化 popup
@@ -121,6 +123,7 @@ var qii404 = {
                 // 开关切换
                 else if (request.action === 'toggle_switch') {
                     localStorage.setItem(this_.switchKey, request.switch ? 0 : 1);
+                    response(true);
                 }
         });
     },
